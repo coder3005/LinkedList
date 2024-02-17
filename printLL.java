@@ -40,7 +40,7 @@ public class LinkedList {
         tail = newNode;
     }
 
-    public void print() {
+    public void print() { //O(n)
         if (head == null) { //if we remove this is if operation then null will print
             System.out.println("LL is empty");
             return;
