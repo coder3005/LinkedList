@@ -12,6 +12,6 @@ public class LinkedList {
     public static Node tail;
 
     public static void main(String[] args) {
-        LinkedList ll=new LinkedList();
+        LinkedList ll=new LinkedList(); //we have written LinkedList here because we have created class with the name LinkedList only 
     }
 }
