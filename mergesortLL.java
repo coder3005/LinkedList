@@ -38,7 +38,7 @@ public class LinkedList {
     }
 
     private Node merge(Node head1, Node head2) {
-        Node mergedLL=new Node(-1);
+        Node mergedLL=new Node(-1); //dummy node
         Node temp=mergedLL;
 
         while(head1!=null && head2!=null) {
