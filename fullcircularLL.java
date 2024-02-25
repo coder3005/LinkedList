@@ -1,109 +1,171 @@
-public class solution {
+public class circular {
     public static class Node {
-    int data;
-    Node next;
+        int data;
+        Node next;
+
+        public Node(int data) {
+            this.data = data;
+            this.next = null;
+        }
     }
 
-    public static Node addToEmpty(Node last, int data) {
-    if (last != null)
-    return last;
-    Node newNode = new Node();
-    newNode.data = data;
-    last = newNode;
-    newNode.next = last;
-    return last;
+    public static Node head;
+    public static Node tail;
+    public static int size;
+
+    public void addFirst(int data) { // O(1)
+        // step1=create new node
+        Node newNode = new Node(data);
+        size++;
+        if (head == null) {
+            head = tail = newNode;
+            return;
+        }
+        // step2- newNode next=head
+        newNode.next = head; // link
+
+        // step3- head=newNode
+        head = newNode;
     }
 
-    public static Node addFront(Node last, int data) {
-    if (last == null)
-    return addToEmpty(last, data);
-    Node newNode = new Node();
-    newNode.data = data;
-    newNode.next = last.next;
-    last.next = newNode;
-    return last;
+    public void addLast(int data) { // O(1)
+        // step1- create new node
+        Node newNode = new Node(data);
+        size++;
+        if (head == null) {
+            head = tail = newNode;
+            tail.next=head;
+            return;
+        }
+        // step2- tail.next=newNode
+        tail.next = newNode;
+
+        // step3- tail=newNode
+        tail = newNode;
+
+        //make the list circular
+        tail.next=head;
     }
 
-    public static Node addEnd(Node last, int data) {
-    if (last == null)
-    return addToEmpty(last, data);
-    Node newNode = new Node();
-    newNode.data = data;
-    newNode.next = last.next;
-    last.next = newNode;
-    last = newNode;
-    return last;
-}
-
-    public static Node addAfter(Node last, int data, int item) {
-    if (last == null)
-    return null;
-    Node newNode, p;
-    p = last.next;
-        do{
-    if (p.data == item) {
-    newNode = new Node();
-    newNode.data = data;
-    newNode.next = p.next;
-    p.next = newNode;
-    if (p == last)
-    last = newNode;
-    return last;
-    }
-    p = p.next;
-    } 
-    while (p != last.next);
-    System.out.println(item + "The given node is not present in the list");
-    return last;
+    public void display() {  
+        Node current = head;  
+        if(head == null) {  
+            System.out.println("List is empty");  
+        }  
+        System.out.print(current.data+" ");
+        current=current.next;
+        while(current!=head) {
+            System.out.print(current.data+" ");
+            current=current.next;
+        }
+        System.out.println();
     }
 
-    public static Node deleteNode(Node last, int key) {
-    if (last == null)
-    return null;
-    if (last.data == key && last.next == last) {
-    last = null;
-    return last;
+    public void add(int data) {
+        Node create=new Node(data);
+        size++;
+        if(head==null) {
+            create.next=create;
+            head=create;
+            return;
+        }
+        tail.next=null;
+        create.next=head;
+        head=create;
+        tail.next=head;
     }
-    Node temp = last, d = new Node();
-    if (last.data == key) {
-    while (temp.next != last) {
-    temp = temp.next;
+    
+    public void last(int data) {
+        Node temp=new Node(data);
+        size++;
+        if(head==null) {
+            temp=head=tail;
+            return;
+        }
+        tail.next=null;
+        tail.next=temp;
+        temp.next=head;
+        tail=temp;
     }
 
-    temp.next = last.next;
-    last = temp.next;
-    }
-    while (temp.next != last && temp.next.data != key) {
-    temp = temp.next;
-    }
-    if (temp.next.data == key) {
-    d = temp.next;
-    temp.next = d.next;
-    }
-    return last;
+    public void middle(int idx, int data) {
+        Node prev=new Node(data);
+        size++;
+        if(head==null) {
+            prev=head=tail;
+            return;
+        }
+        Node temp=head;
+        int i=0;
+        
+        while(i<idx-1) {
+            temp=temp.next;
+            i++;
+        }
+        prev.next=temp.next;
+        temp.next=prev;
+        
     }
 
-    public static void traverse(Node last) {
-    Node p;
-    if (last == null) {
-    System.out.println("List is empty.");
-    return;
+    public void deletefirst() {
+        if(head==null) {
+            size=0;
+            return;
+        }
+        if(head.next==null) {
+            head=tail=null;
+            size=0;
+            return;
+        }
+        tail.next=null;
+        head=head.next;
+        tail.next=head;
+        size--;
     }
-    p = last.next;
-    do {
-    System.out.print(p.data + " ");
-    p = p.next;
+
+    public void deletelast() {
+        if(head==null) {
+            size=0;
+            return;
+        }
+        if(head.next==null) {
+            head=tail=null;
+            size=0;
+            return;
+        }
+        Node temp=head;
+        for(int i=0;i<size-2;i++) {
+            temp=temp.next;
+        }
+        temp.next=null;
+        tail=temp;
+        temp.next=head;
+        size--; 
     }
-    while (p != last.next);
-    }
+        // do{  
+        //         //Prints each node by incrementing pointer.  
+        //         System.out.print(" "+ current.data);  
+        //         current = current.next;  
+        //     }while(current != head);  
+        //     System.out.println();  
+        // }  
     public static void main(String[] args) {
-    Node last = null;
-    last = addToEmpty(last, 6);
-    last = addEnd(last, 8);
-    last = addFront(last, 2);
-    last = addAfter(last, 10, 2);
-    traverse(last);
-    deleteNode(last, 8);
-    traverse(last);
+        circular ll = new circular();
+        ll.addFirst(1);
+        ll.addFirst(2);
+        ll.addLast(3);
+        ll.addLast(4);
+        ll.display();
+        ll.add(6);
+        ll.display();
+        ll.last(7);
+        ll.display();
+        ll.middle(2,9);
+        ll.display();
+        ll.deletefirst();
+        ll.display();
+        ll.deletelast();
+        ll.display();
+        
     }
 }
