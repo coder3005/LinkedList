@@ -1,4 +1,4 @@
-//brute force approach
+//brute force approach -O(n^2)
 
 import java.util.LinkedList;
 
